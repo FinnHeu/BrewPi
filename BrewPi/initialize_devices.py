@@ -4,18 +4,18 @@ import time
 import os
 from .Adafruit_LCD1602 import Adafruit_CharLCD
 
-def _InitializeGPIOs():
+def _InitializeGPIOs(lcd):
     '''
     Assign pins
     '''
 
     ### Start Processes
-    _LCD(str1='# --> BrewPi <-- #')
+    _LCD(lcd, str1='# --> BrewPi <-- #')
     time.sleep(3)
 
     ########################################## GPIOS ################################################
     ### Set GPIO pins as global variables
-    _LCD(str1='Assigning', str2='GPIOs...')
+    _LCD(lcd, str1='Assigning', str2='GPIOs...')
     ledPin_Socket_A = 40
     ledPin_On = 37
     ledPin_Rest = 38
@@ -98,8 +98,8 @@ def Initialize():
     Main function of this submodule: Runs all initialization routines
     """
 
-    _InitializeGPIOs()
     lcd = _InitializeLCD()
+    _InitializeGPIOs(lcd)
     device_file = _InitializeThermistors()
 
     return lcd, device_file

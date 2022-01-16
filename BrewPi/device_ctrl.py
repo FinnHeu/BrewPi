@@ -95,7 +95,7 @@ def _RemoteControlSocket(socket='A', on=True):
 
     return A_status, B_status
 
-def _LCD(str1='', str2=''):
+def _LCD(lcd, str1='', str2=''):
     """
     Print statement on LCD
 
