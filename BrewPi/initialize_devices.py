@@ -40,7 +40,7 @@ def _InitializeGPIOs(lcd):
 
     return
 
-def _InitializeThermistors():
+def _InitializeThermistors(lcd):
     """
     Initialize thermistors
 
@@ -49,7 +49,7 @@ def _InitializeThermistors():
     device_file, list() list of files pointing to the temperature values
     """
     # Activate temperature sensor
-    _LCD(str1='Activating', str2='Thermistors...')
+    _LCD(lcd, str1='Activating', str2='Thermistors...')
 
     os.system('modprobe w1-gpio')
     os.system('modprobe w1-therm')
@@ -102,6 +102,6 @@ def Initialize():
 
     lcd = _InitializeLCD()
     _InitializeGPIOs(lcd)
-    device_file = _InitializeThermistors()
+    device_file = _InitializeThermistors(lcd)
 
     return lcd, device_file
