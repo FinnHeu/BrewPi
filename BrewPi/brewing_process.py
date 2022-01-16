@@ -31,7 +31,7 @@ def _ReadThermistor(device_file, number=0):
 
     return temp
 
-def _MeanTemp(device_file, consistency_check=False)
+def _MeanTemp(device_file, consistency_check=False):
     """
     
     """
