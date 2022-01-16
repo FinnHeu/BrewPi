@@ -77,13 +77,13 @@ def _InitializeLCD():
     PCF8574A_address = 0x3F  # I2C address of the PCF8574A chip.
 
     # Create PCF8574 GPIO adapter.
-    try:
-        mcp = PCF8574_GPIO(PCF8574_address)
-    except:
-        try:
-            mcp = PCF8574_GPIO(PCF8574A_address)
-        except:
-            print ('I2C Address Error !')
+    #try:
+    mcp = PCF8574_GPIO(PCF8574_address)
+    #except:
+    #    try:
+    #        mcp = PCF8574_GPIO(PCF8574A_address)
+    #    except:
+    #        print ('I2C Address Error !')
 
     # Create LCD, passing in MCP GPIO adapter.
     lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
