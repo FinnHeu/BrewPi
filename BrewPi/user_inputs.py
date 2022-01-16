@@ -16,7 +16,7 @@ def _UserInputRasten():
 
     """
 
-    _LCD(str1='See Terminal for', str2='Instructions... ')
+    _LCD(lcd, str1='See Terminal for', str2='Instructions... ')
 
     # Input: Rasten Laenge
     user_input_1 = input('Laenge der Rasten in Minuten eingeben z.B. 10 30 20: ').split()
@@ -52,7 +52,7 @@ def _UserInputEinAbmaischTemp():
         Abmaischtemperatur
     """
 
-    _LCD(str1='See Terminal for', str2='Instructions... ')
+    _LCD(lcd, str1='See Terminal for', str2='Instructions... ')
 
     # Input: Ein-/ Abmaischtemperatur
     user_input = input('Ein- und Abmaischtemperatur in C eingeben, z.B. 50 80: ').split()
