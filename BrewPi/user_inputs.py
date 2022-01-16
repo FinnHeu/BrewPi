@@ -73,8 +73,8 @@ def UserInputMaischenRasten(lcd):
     """
     Main function for user inputs
     """
-    rast_min, rast_temp = _UserInputRasten()
-    ein_temp, ab_temp = _UserInputEinAbmaischTemp()
+    rast_min, rast_temp = _UserInputRasten(lcd)
+    ein_temp, ab_temp = _UserInputEinAbmaischTemp(lcd)
 
     return rast_min, rast_temp, ein_temp, ab_temp
 
