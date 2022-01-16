@@ -20,7 +20,7 @@ author_email='Finn.Heukamp@t-online.de',
 license='MIT',
 keywords='core package',
 packages=['BrewPi'],
-install_requires=requirements,
+#install_requires=requirements,
 include_package_data=True,
 zip_safe=False
       )
