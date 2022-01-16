@@ -78,10 +78,10 @@ def _InitializeLCD():
 
     # Create PCF8574 GPIO adapter.
     #try:
-    mcp = PCF8574_GPIO(PCF8574_address)
+    #mcp = PCF8574_GPIO(PCF8574_address)
     #except:
     #    try:
-    #        mcp = PCF8574_GPIO(PCF8574A_address)
+    mcp = PCF8574_GPIO(PCF8574A_address)
     #    except:
     #        print ('I2C Address Error !')
 
