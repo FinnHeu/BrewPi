@@ -10,7 +10,7 @@ def BrewPi():
 
     lcd, device_file = Initialize()
 
-    rast_min, rast_temp, ein_temp, ab_temp = UserInputMaischenRasten()
+    rast_min, rast_temp, ein_temp, ab_temp = UserInputMaischenRasten(lcd)
 
     return
 

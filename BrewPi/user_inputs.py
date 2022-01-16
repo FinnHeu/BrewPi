@@ -69,7 +69,7 @@ def _UserInputEinAbmaischTemp():
 
     return ein_temp, ab_temp
 
-def UserInputMaischenRasten():
+def UserInputMaischenRasten(lcd):
     """
     Main function for user inputs
     """
