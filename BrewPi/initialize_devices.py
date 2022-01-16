@@ -14,7 +14,7 @@ def _InitializeGPIOs(lcd):
     '''
 
     ### Start Processes
-    _LCD(lcd, str1='# --> BrewPi <-- #')
+    _LCD(lcd, str1='---> BrewPi <---')
     time.sleep(3)
 
     ########################################## GPIOS ################################################
