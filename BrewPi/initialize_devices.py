@@ -2,9 +2,11 @@
 from .device_ctrl import _LCD
 import time
 import os
+import glob
+import RPi.GPIO as GPIO
 from .Adafruit_LCD1602 import Adafruit_CharLCD
 from .PCF8574 import PCF8574_GPIO
-import RPi.GPIO as GPIO
+
 
 def _InitializeGPIOs(lcd):
     '''
