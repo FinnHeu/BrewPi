@@ -1,5 +1,5 @@
 # Submodule for initializing the single devices
-from .device_ctrl import _LCD
+from .device_ctrl import _LCD, _RemoteControlSocket
 import time
 import os
 import glob
