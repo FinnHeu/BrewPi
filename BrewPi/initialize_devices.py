@@ -6,6 +6,7 @@ import glob
 import RPi.GPIO as GPIO
 from .Adafruit_LCD1602 import Adafruit_CharLCD
 from .PCF8574 import PCF8574_GPIO
+from.brewing_process import _MeanTemp
 
 
 def _InitializeGPIOs(lcd):
@@ -96,6 +97,49 @@ def _InitializeLCD():
 
     return lcd
 
+def _InitTests(lcd, device_file):
+    """"""
+
+    # Start brewing with some test...
+    _LCD(lcd, str1='Initializing...', str2='Please Wait...')
+    time.sleep(3)
+
+    _LCD(lcd, str1='Check 433MHz', str2='Watch Cooker!')
+    A_status, B_status = _RemoteContolSocket(socket='A', on=True)
+    time.sleep(3)
+    A_status, B_status = _RemoteControlSocket(socket='A', on=False)
+    _LCD(lcd, str1='If failed', str2='Press CTRL + C')
+    time.sleep(3)
+
+    A_status, B_status = _RemoteContolSocket(socket='B', on=True)
+    time.sleep(3)
+    A_status, B_status = _RemoteControlSocket(socket='B', on=False)
+    _LCD(lcd, str1='If failed', str2='Press CTRL + C')
+    time.sleep(3)
+
+    # check temperature sensors for consistency
+    _LCD(lcd, str1='Checking', str2='Thermistors...')
+    time.sleep(2)
+
+    temp_consistency = False
+    while temp_consistency == False:
+        temp = _MeanTemp(device_file, consistency_check=True)
+
+        # compute difference from mean temperature
+        temp_delta = abs(temp - sum(temp) / 3)
+        # check deviation from mean temperature
+        if any(temp_delta > .5):
+            temp_consistency = False
+            _LCD(lcd, str1='Temp:' + str(temp[0].round(decimals=2)) + 'C ',
+                str2=str(temp[1].round(decimals=2)) + 'C ' + str(temp[2].round(decimals=2)) + 'C ')
+
+        else:
+            temp_consistency = True
+
+        time.sleep(2)
+
+    _LCD(lcd, str1='Thermistors', str2='ready!')
+    time.sleep(2)
 
 def Initialize():
     """
@@ -103,7 +147,11 @@ def Initialize():
     """
 
     lcd = _InitializeLCD()
+
     _InitializeGPIOs(lcd)
+
     device_file = _InitializeThermistors(lcd)
+
+    _InitTests(lcd, device_file)
 
     return lcd, device_file

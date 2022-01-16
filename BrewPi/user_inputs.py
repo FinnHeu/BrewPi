@@ -69,12 +69,29 @@ def _UserInputEinAbmaischTemp(lcd):
 
     return ein_temp, ab_temp
 
+def _PrintInputs(lcd, ein_temp, ab_temp, rast_min, rast_temp):
+    """
+
+    """
+    # Display Rasten
+    _LCD(lcd, str1='Einmaischen:', str2=str(ein_temp[0]) + 'C')
+    time.sleep(3)
+
+    for num, temp in enumerate(rast_temp):
+        _LCD(lcd, str1='Rest: ' + str(num + 1), str2='T: ' + str(int(temp)) + ', Min: ' + str(int(rast_min[num])))
+        time.sleep(3)
+
+    _LCD(lcd, str1='Abmaischen: ', str2=str(ab_temp[0]) + 'C')
+    time.sleep(3)
+
 def UserInputMaischenRasten(lcd):
     """
     Main function for user inputs
     """
     rast_min, rast_temp = _UserInputRasten(lcd)
     ein_temp, ab_temp = _UserInputEinAbmaischTemp(lcd)
+
+    _PrintInputs(lcd, ein_temp, ab_temp, rast_min, rast_temp)
 
     return rast_min, rast_temp, ein_temp, ab_temp
 
