@@ -61,7 +61,7 @@ def _UserInputEinAbmaischTemp(lcd):
     for _ in user_input:
         einab_temp.append(float(_))
 
-    if len(ein_temp) != 2:
+    if len(einab_temp) != 2:
         raise ValueError('Nur eine Einmaischtemperatur moeglich!')
 
     ein_temp = einab_temp[0]  # type: float
