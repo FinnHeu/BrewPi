@@ -1,7 +1,7 @@
 # Main function for BrewPi
 
-from initialize_devices import Initialize
-from user_inputs import UserInputMaischenRasten
+from .initialize_devices import Initialize
+from .user_inputs import UserInputMaischenRasten
 
 def BrewPi():
     """

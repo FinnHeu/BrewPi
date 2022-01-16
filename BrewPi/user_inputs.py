@@ -1,5 +1,5 @@
 # Submodule for recieving user inputs
-from device_ctrl import _LCD
+from .device_ctrl import _LCD
 
 def _UserInputRasten():
     """Ask user in terminal to input length of Rasten

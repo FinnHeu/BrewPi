@@ -1,8 +1,8 @@
 # Submodule for initializing the single devices
-from device_ctrl import _LCD
+from .device_ctrl import _LCD
 import time
 import os
-from BrewPi.Adafruit_LCD1602 import Adafruit_CharLCD
+from .Adafruit_LCD1602 import Adafruit_CharLCD
 
 def _InitializeGPIOs():
     '''
