@@ -4,6 +4,7 @@ import time
 import os
 from .Adafruit_LCD1602 import Adafruit_CharLCD
 from .PCF8574 import PCF8574_GPIO
+import RPi.GPIO as GPIO
 
 def _InitializeGPIOs(lcd):
     '''
