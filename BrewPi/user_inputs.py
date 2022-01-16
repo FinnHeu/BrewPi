@@ -1,7 +1,7 @@
 # Submodule for recieving user inputs
 from .device_ctrl import _LCD
 
-def _UserInputRasten():
+def _UserInputRasten(lcd):
     """Ask user in terminal to input length of Rasten
 
     Input
@@ -37,7 +37,7 @@ def _UserInputRasten():
 
     return rast_min, rast_temp
 
-def _UserInputEinAbmaischTemp():
+def _UserInputEinAbmaischTemp(lcd):
     """
     Ask user in terminal to input Ein-/ Abmaisch temperature
 
