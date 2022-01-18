@@ -105,13 +105,13 @@ def _InitTests(lcd, device_file):
     time.sleep(3)
 
     _LCD(lcd, str1='Check 433MHz', str2='Watch Cooker!')
-    A_status, B_status = _RemoteContolSocket(socket='A', on=True)
+    A_status, B_status = _RemoteControlSocket(socket='A', on=True)
     time.sleep(3)
     A_status, B_status = _RemoteControlSocket(socket='A', on=False)
     _LCD(lcd, str1='If failed', str2='Press CTRL + C')
     time.sleep(3)
 
-    A_status, B_status = _RemoteContolSocket(socket='B', on=True)
+    A_status, B_status = _RemoteControlSocket(socket='B', on=True)
     time.sleep(3)
     A_status, B_status = _RemoteControlSocket(socket='B', on=False)
     _LCD(lcd, str1='If failed', str2='Press CTRL + C')
