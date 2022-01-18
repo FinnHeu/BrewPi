@@ -129,7 +129,7 @@ def _InitTests(lcd, device_file):
         # recieve the deviation from the mean temperature
         temp_diff = _MeanTemp(device_file, consistency_check=True)
         # check deviation from mean temperature
-        if any(temp_diff > .5):
+        if any(t > .5 for t in temp_diff):
             _LCD(lcd, str1='Temp:' + str(temp[0].round(decimals=2)) + 'C ',
                 str2=str(temp[1].round(decimals=2)) + 'C ' + str(temp[2].round(decimals=2)) + 'C ')
             time.sleep(3)
