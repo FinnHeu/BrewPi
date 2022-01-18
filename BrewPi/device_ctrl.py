@@ -69,19 +69,20 @@ def _RemoteControlSocket(socket='A', on=True):
     # Switch on/off sockets
     if socket == 'A':
         if on:
-            cmd = 'python3 send_433.py -p 310 -t 0 17745'
+            cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17745'
             A_status = True
         else:
-            cmd = 'python3 send_433.py -p 310 -t 0 17748'
+            cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17748'
             A_status = False
 
-    elif socket == 'B':
-        if on:
-            cmd = 'python3 send_433.py -p 310 -t 0 17745'
-            B_status = True
-        else:
-            cmd = 'python3 send_433.py -p 310 -t 0 17748'
-            B_status = False
+    #elif socket == 'B':
+    print('not configured yet')
+    #    if on:
+    #        cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17745'
+    #        B_status = True
+    #    else:
+    #        cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17748'
+    #        B_status = False
 
     # Open subprocess and execute command
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
