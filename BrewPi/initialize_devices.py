@@ -7,6 +7,9 @@ import RPi.GPIO as GPIO
 from .Adafruit_LCD1602 import Adafruit_CharLCD
 from .PCF8574 import PCF8574_GPIO
 from.brewing_process import _MeanTemp
+import argparse
+import logging
+from rpi_rf import RFDevice
 
 
 def _InitializeGPIOs(lcd):
