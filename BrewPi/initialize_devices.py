@@ -126,16 +126,15 @@ def _InitTests(lcd, device_file):
 
     temp_consistency = False
     while temp_consistency == False:
-        temp = _MeanTemp(device_file, consistency_check=True)
-
-        # compute difference from mean temperature
-        temp_delta = abs(temp - sum(temp) / 3)
+        # recieve the deviation from the mean temperature
+        temp_diff = _MeanTemp(device_file, consistency_check=True)
         # check deviation from mean temperature
-        if any(temp_delta > .5):
-            temp_consistency = False
+        if any(temp_diff > .5):
             _LCD(lcd, str1='Temp:' + str(temp[0].round(decimals=2)) + 'C ',
                 str2=str(temp[1].round(decimals=2)) + 'C ' + str(temp[2].round(decimals=2)) + 'C ')
-
+            time.sleep(3)
+            _LCD(lcd, str1='Thermistors are ',
+                 str2='calibrated...')
         else:
             temp_consistency = True
 

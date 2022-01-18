@@ -40,8 +40,13 @@ def _MeanTemp(device_file, consistency_check=False):
         temp = _ReadThermistor(device_file, number=i)
         temp_list.append(temp)
 
-    if not consistency_check:
-        mean_temp = sum(temp_list) / 3
-        return mean_temp
+    # Apply mean
+    mean_temp = sum(temp_list) / 3
+
+    if consistency_check:
+        # Compute Difference of each value to the mean
+        temp_diff = [x-mean_temp for x in temp_list]
+
+        return temp_diff
     else:
-        return temp
+        return mean_temp
