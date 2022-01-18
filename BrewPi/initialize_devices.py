@@ -130,8 +130,8 @@ def _InitTests(lcd, device_file):
         temp_diff = _MeanTemp(device_file, consistency_check=True)
         # check deviation from mean temperature
         if any(t > .5 for t in temp_diff):
-            _LCD(lcd, str1='Temp:' + str(temp_diff[0].round(decimals=2)) + 'C ',
-                str2=str(temp_diff[1].round(decimals=2)) + 'C ' + str(temp_diff[2].round(decimals=2)) + 'C ')
+            _LCD(lcd, str1='Temp:' + str(np.round(temp_diff[0], decimals=2)) + 'C ',
+                str2=str(np.round(temp_diff[1], decimals=2)) + 'C ' + str(np.round(temp_diff[2], decimals=2)) + 'C ')
             time.sleep(3)
             _LCD(lcd, str1='Thermistors are ',
                  str2='calibrated...')
