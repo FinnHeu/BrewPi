@@ -85,7 +85,8 @@ def _RemoteControlSocket(socket='A', on=True):
     #        B_status = False
 
     # Open subprocess and execute command
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+    if socket == 'A':
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
 
     # Set LED status
     socket_name = 'socket_' + socket
