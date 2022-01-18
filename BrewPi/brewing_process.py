@@ -12,7 +12,7 @@ def _ReadThermistor(device_file, number=0):
     """
 
     # Find the thermistor (this should be moved to setup, no need to repeat every time)
-    device_file = device_folder[number] + '/w1_slave'
+    #device_file = device_folder[number] + '/w1_slave'
 
     # Read the temperature from the thermistor
     f = open(device_file, 'r')
