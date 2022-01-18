@@ -15,7 +15,7 @@ def _ReadThermistor(device_file, number=0):
     #device_file = device_folder[number] + '/w1_slave'
 
     # Read the temperature from the thermistor
-    f = open(device_file, 'r')
+    f = open(device_file[number], 'r')
     lines = f.readlines()
     f.close()
 
