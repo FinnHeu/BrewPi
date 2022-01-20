@@ -97,7 +97,7 @@ def _Einmaischen(lcd, device_file, ein_temp):
     while now < end:
         time.sleep(.9)
         _LCD(lcd, str1='Einmaischen...', str2=str(end - now)[:7] + 'h')
-        now = datetime.now()
+        now = datetime.datetime.now()
 
     _LCD(lcd, str1='Einmaischen', str2='Finished...')
     time.sleep(5)
