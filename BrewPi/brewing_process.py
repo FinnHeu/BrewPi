@@ -83,6 +83,7 @@ def _Einmaischen(lcd, device_file, ein_temp):
 
 
     # If temperature reached turn of cooker and wait for five minutes
+    time.sleep(2)
     _LCD(lcd, str1='Temperatur', str2='Erreicht!')
     time.sleep(2)
     A_status, B_status = _RemoteControlSocket(socket='A', on=False)
@@ -95,10 +96,10 @@ def _Einmaischen(lcd, device_file, ein_temp):
 
     while now < end:
         time.sleep(.9)
-        LCD(str1='Einmaischen...', str2=str(end - now)[:7] + 'h')
+        _LCD(lcd, str1='Einmaischen...', str2=str(end - now)[:7] + 'h')
         now = datetime.now()
 
-    LCD(str1='Einmaischen', str2='Finished...')
+    _LCD(lcd, str1='Einmaischen', str2='Finished...')
     time.sleep(5)
 
     return temp_record, time_record
