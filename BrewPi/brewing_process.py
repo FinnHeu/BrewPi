@@ -158,6 +158,7 @@ def _Rasten(lcd, temp_record: list, time_record: list, rast_min: list, rast_temp
             if all(t < (rast_temp[i] - .25) for t in temp_record[-10:]):
                 # turn on cooker for at least 30 seconds before next temperature measurement
                 A_status, B_status = _RemoteControlSocket(socket='A', on=True)
+                _CtrlLed(device='LED_socket_A', on=True)
 
                 for j in range(10):
                     time_record.append(datetime.datetime.now())

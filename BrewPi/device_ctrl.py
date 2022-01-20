@@ -14,6 +14,11 @@ def _CtrlLed(device=None, on=True):
         LED status
     """
 
+    ledPin_Socket_A = 40
+    ledPin_On = 37
+    ledPin_Rest = 38
+    ledPin_End = 22
+
     if device == None:
         raise ValueError('Select a device!')
 
@@ -72,7 +77,7 @@ def _RemoteControlSocket(socket='A', on=True):
             cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17745'
             A_status = True
             _CtrlLed(device='LED_socket_A', on=True)
-        else:
+            else:
             cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17748'
             A_status = False
             _CtrlLed(device='LED_socket_A', on=False)

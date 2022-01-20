@@ -9,7 +9,7 @@ def BrewPi():
 
     """
 
-    lcd, device_file = Initialize()
+    lcd, device_file, ledPin_Socket_A, ledPin_Rest, ledPin_On, ledPin_End = Initialize()
 
     rast_min, rast_temp, ein_temp, ab_temp = UserInputMaischenRasten(lcd)
 

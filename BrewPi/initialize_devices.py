@@ -43,7 +43,7 @@ def _InitializeGPIOs(lcd):
     GPIO.setup(ledPin_End, GPIO.OUT) # set the led pin to Output mode
     GPIO.output(ledPin_End, GPIO.LOW) # make standard level of led pin low
 
-    return
+    return ledPin_Socket_A, ledPin_Rest, ledPin_On, ledPin_End
 
 def _InitializeThermistors(lcd):
     """
@@ -99,7 +99,7 @@ def _InitializeLCD():
 
     return lcd
 
-def _InitTests(lcd, device_file):
+def _InitTests(lcd, device_file, ledPin_Socket_A):
     """"""
 
     # Start brewing with some test...
@@ -107,17 +107,17 @@ def _InitTests(lcd, device_file):
     time.sleep(3)
 
     _LCD(lcd, str1='Check 433MHz', str2='Watch Cooker!')
-    A_status, B_status = _RemoteControlSocket(socket='A', on=True)
+    A_status, B_status = _RemoteControlSocket(socket='A', on=True, ledPin_Socket_A)
     time.sleep(3)
-    A_status, B_status = _RemoteControlSocket(socket='A', on=False)
+    A_status, B_status = _RemoteControlSocket(socket='A', on=False, ledPin_Socket_A)
     _LCD(lcd, str1='If failed', str2='Press CTRL + C')
     time.sleep(3)
 
-    A_status, B_status = _RemoteControlSocket(socket='B', on=True)
-    time.sleep(3)
-    A_status, B_status = _RemoteControlSocket(socket='B', on=False)
-    _LCD(lcd, str1='If failed', str2='Press CTRL + C')
-    time.sleep(3)
+    #A_status, B_status = _RemoteControlSocket(socket='B', on=True)
+    #time.sleep(3)
+    #A_status, B_status = _RemoteControlSocket(socket='B', on=False)
+    #_LCD(lcd, str1='If failed', str2='Press CTRL + C')
+    #time.sleep(3)
 
     # check temperature sensors for consistency
     _LCD(lcd, str1='Checking', str2='Thermistors...')
@@ -149,10 +149,10 @@ def Initialize():
 
     lcd = _InitializeLCD()
 
-    _InitializeGPIOs(lcd)
+    ledPin_Socket_A, ledPin_Rest, ledPin_On, ledPin_End = _InitializeGPIOs(lcd)
 
     device_file = _InitializeThermistors(lcd)
 
-    _InitTests(lcd, device_file)
+    _InitTests(lcd, device_file, ledPin_Socket_A)
 
-    return lcd, device_file
+    return lcd, device_file, ledPin_Socket_A, ledPin_Rest, ledPin_On, ledPin_End
