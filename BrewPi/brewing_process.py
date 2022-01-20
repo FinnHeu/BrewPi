@@ -1,4 +1,6 @@
-#
+from device_ctrl import _LCD, _RemoteControlSocket
+import datetime
+import time
 
 def _ReadThermistor(device_file, number=0):
     """
@@ -50,3 +52,54 @@ def _MeanTemp(device_file, consistency_check=False):
         return temp_diff
     else:
         return mean_temp
+
+
+def _Einmaischen(lcd, device_file, ein_temp):
+    """
+
+    """
+
+    _LCD(lcd, str1='Erhitze zum', str2='Einmaischen')
+
+    # Initially read temperature and time and create the first 10 values in one minute
+    temp_record = list()
+    time_record = list()
+    for i in range(11):
+        temp_record.append(_MeanTemp(device_file, consistency_check=False))
+        time_record.append(datetime.datetime.now())
+        time.sleep(6)
+
+    while all(t < ein_temp for t in temp_record[-10:]):
+        # Turn on socket cooker to heat
+        A_status, B_status = _RemoteControlSocket(socket='A', on=True)
+
+        # Get temperature and time
+        temp_record.append(_MeanTemp(device_file, consistency_check=False))
+        time_record.append(datetime.datetime.now())
+
+        _LCD(lcd, str1='Soll: ' + str(ein_temp), str2='Ist: ' + str(round(temp_record[-1],2 )))
+        time.sleep(5)
+
+
+    # If temperature reached turn of cooker and wait for five minutes
+    _LCD(lcd, str1='Temperatur', str2='Erreicht!')
+    time.sleep(5)
+    A_status, B_status = _RemoteControlSocket(socket='A', on=True)
+
+    _LCD(lcd, str1='Jetzt', str2='Einmaischen!')
+
+    # Wait 5mins
+    now = datetime.datetime.now()
+    end = now + datetime.timedelta(minutes=5)
+
+    while now < end:
+        time.sleep(.9)
+        LCD(str1='Einmaischen...', str2=str(end - now)[:7] + 'h')
+        now = datetime.now()
+
+    LCD(str1='Einmaischen', str2='Finished...')
+    time.sleep(5)
+
+    return temp_record, time_record
+
+
