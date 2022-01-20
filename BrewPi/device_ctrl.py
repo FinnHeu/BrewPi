@@ -71,9 +71,11 @@ def _RemoteControlSocket(socket='A', on=True):
         if on:
             cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17745'
             A_status = True
+            _CtrlLed(device='LED_socket_A', on=True)
         else:
             cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17748'
             A_status = False
+            _CtrlLed(device='LED_socket_A', on=False)
 
     #elif socket == 'B':
     print('not configured yet')
