@@ -67,7 +67,7 @@ def _Einmaischen(lcd, device_file, ein_temp):
     for i in range(11):
         temp_record.append(_MeanTemp(device_file, consistency_check=False))
         time_record.append(datetime.datetime.now())
-        time.sleep(6)
+        time.sleep(2)
 
     while all(t < ein_temp for t in temp_record[-10:]):
         # Turn on socket cooker to heat
@@ -79,12 +79,13 @@ def _Einmaischen(lcd, device_file, ein_temp):
 
         _LCD(lcd, str1='Soll: ' + str(ein_temp), str2='Ist: ' + str(round(temp_record[-1],2 )))
         time.sleep(5)
+        _LCD(lcd, str1='Erhitze zum', str2='Einmaischen')
 
 
     # If temperature reached turn of cooker and wait for five minutes
     _LCD(lcd, str1='Temperatur', str2='Erreicht!')
-    time.sleep(5)
-    A_status, B_status = _RemoteControlSocket(socket='A', on=True)
+    time.sleep(2)
+    A_status, B_status = _RemoteControlSocket(socket='A', on=False)
 
     _LCD(lcd, str1='Jetzt', str2='Einmaischen!')
 
