@@ -1,4 +1,4 @@
-from device_ctrl import _LCD, _RemoteControlSocket
+from .device_ctrl import _LCD, _RemoteControlSocket
 import datetime
 import time
 
