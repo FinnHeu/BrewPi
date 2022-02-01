@@ -1,28 +1,29 @@
 # Submodule for initializing the single devices
-from .device_ctrl import _LCD, _RemoteControlSocket
 import time
 import os
 import glob
 import numpy as np
 import RPi.GPIO as GPIO
+import ctrl_hardware.constants as c
 from ctrl_hardware.Adafruit_LCD1602 import Adafruit_CharLCD
 from ctrl_hardware.PCF8574 import PCF8574_GPIO
-from ctrl_brewing.brewing_process import _MeanTemp
-import ctrl_hardware.constants as c
+from ctrl_brewing.brewing_process import MeanTemp
+from ctrl_hardware.device_ctrl import LCD, RemoteControlSocket
 
 
-def _InitializeGPIOs(lcd):
+
+def InitializeGPIOs(lcd):
     '''
     Assign pins
     '''
 
     ### Start Processes
-    _LCD(lcd, str1='---> BrewPi <---')
+    LCD(lcd, str1='---> BrewPi <---')
     time.sleep(3)
 
     ########################################## GPIOS ################################################
     ### Set GPIO pins as global variables
-    _LCD(lcd, str1='Assigning', str2='GPIOs...')
+    LCD(lcd, str1='Assigning', str2='GPIOs...')
 
     ### Set pin numbering and standard levels for LEDs
     GPIO.setmode(GPIO.BOARD) # use physical numbering on GPIOs
@@ -41,7 +42,7 @@ def _InitializeGPIOs(lcd):
 
     return
 
-def _InitializeThermistors(lcd):
+def InitializeThermistors(lcd):
     """
     Initialize thermistors
 
@@ -50,7 +51,7 @@ def _InitializeThermistors(lcd):
     device_file, list() list of files pointing to the temperature values
     """
     # Activate temperature sensor
-    _LCD(lcd, str1='Activating', str2='Thermistors...')
+    LCD(lcd, str1='Activating', str2='Thermistors...')
 
     os.system('modprobe w1-gpio')
     os.system('modprobe w1-therm')
@@ -67,7 +68,7 @@ def _InitializeThermistors(lcd):
 
     return device_file
 
-def _InitializeLCD():
+def InitializeLCD():
     """
     Initialize LCD screen
 
@@ -95,47 +96,47 @@ def _InitializeLCD():
 
     return lcd
 
-def _InitTests(lcd, device_file, ledPin_Socket_A):
+def InitTests(lcd, device_file, ledPin_Socket_A):
     """"""
 
     # Start brewing with some test...
-    _LCD(lcd, str1='Initializing...', str2='Please Wait...')
+    LCD(lcd, str1='Initializing...', str2='Please Wait...')
     time.sleep(3)
 
-    _LCD(lcd, str1='Check 433MHz', str2='Watch Cooker!')
-    A_status, B_status = _RemoteControlSocket(socket='A', on=True)
+    LCD(lcd, str1='Check 433MHz', str2='Watch Cooker!')
+    RemoteControlSocket(socket='A', on=True)
     time.sleep(3)
-    A_status, B_status = _RemoteControlSocket(socket='A', on=False)
-    _LCD(lcd, str1='If failed', str2='Press CTRL + C')
+    RemoteControlSocket(socket='A', on=False)
+    LCD(lcd, str1='If failed', str2='Press CTRL + C')
     time.sleep(3)
 
-    #A_status, B_status = _RemoteControlSocket(socket='B', on=True)
+    #RemoteControlSocket(socket='B', on=True)
     #time.sleep(3)
-    #A_status, B_status = _RemoteControlSocket(socket='B', on=False)
-    #_LCD(lcd, str1='If failed', str2='Press CTRL + C')
+    #RemoteControlSocket(socket='B', on=False)
+    #LCD(lcd, str1='If failed', str2='Press CTRL + C')
     #time.sleep(3)
 
     # check temperature sensors for consistency
-    _LCD(lcd, str1='Checking', str2='Thermistors...')
+    LCD(lcd, str1='Checking', str2='Thermistors...')
     time.sleep(2)
 
     temp_consistency = False
     while temp_consistency == False:
         # recieve the deviation from the mean temperature
-        temp_diff = _MeanTemp(device_file, consistency_check=True)
+        temp_diff = MeanTemp(device_file, consistency_check=True)
         # check deviation from mean temperature
         if any(t > .5 for t in temp_diff):
-            _LCD(lcd, str1='Temp:' + str(np.round(temp_diff[0], decimals=2)) + 'C ',
+            LCD(lcd, str1='Temp:' + str(np.round(temp_diff[0], decimals=2)) + 'C ',
                 str2=str(np.round(temp_diff[1], decimals=2)) + 'C ' + str(np.round(temp_diff[2], decimals=2)) + 'C ')
             time.sleep(3)
-            _LCD(lcd, str1='Thermistors are ',
+            LCD(lcd, str1='Thermistors are ',
                  str2='calibrated...')
         else:
             temp_consistency = True
 
         time.sleep(2)
 
-    _LCD(lcd, str1='Thermistors', str2='ready!')
+    LCD(lcd, str1='Thermistors', str2='ready!')
     time.sleep(2)
 
 def Initialize():
@@ -143,12 +144,12 @@ def Initialize():
     Main function of this submodule: Runs all initialization routines
     """
 
-    lcd = _InitializeLCD()
+    lcd = InitializeLCD()
 
-    _InitializeGPIOs(lcd)
+    InitializeGPIOs(lcd)
 
-    device_file = _InitializeThermistors(lcd)
+    device_file = InitializeThermistors(lcd)
 
-    _InitTests(lcd, device_file, c.ledPin_Socket_A)
+    InitTests(lcd, device_file, c.ledPin_Socket_A)
 
     return lcd, device_file
