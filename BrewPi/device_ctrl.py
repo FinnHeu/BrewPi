@@ -1,6 +1,7 @@
 # Submodule for controling devices like LEDs, Sockets, etc...
 import subprocess
 import RPi.GPIO as GPIO
+import constants as c
 
 def _CtrlLed(device=None, on=True):
     """
@@ -13,37 +14,31 @@ def _CtrlLed(device=None, on=True):
     on, bool
         LED status
     """
-
-    ledPin_Socket_A = 40
-    ledPin_On = 37
-    ledPin_Rest = 38
-    ledPin_End = 22
-
     if device == None:
         raise ValueError('Select a device!')
 
     if device =='LED_socket_A':
         if on:
-            GPIO.output(ledPin_Socket_A, GPIO.HIGH)
+            GPIO.output(c.ledPin_Socket_A, GPIO.HIGH)
         else:
-            GPIO.output(ledPin_Socket_A, GPIO.LOW)
+            GPIO.output(c.ledPin_Socket_A, GPIO.LOW)
     elif device =='LED_socket_B':
         if on:
-            GPIO.output(ledPin_Socket_B, GPIO.HIGH)
+            GPIO.output(c.ledPin_Socket_B, GPIO.HIGH)
         else:
-            GPIO.output(ledPin_Socket_B, GPIO.LOW)
+            GPIO.output(c.ledPin_Socket_B, GPIO.LOW)
     elif device == 'LED_rast':
         if on:
-            GPIO.output(ledPin_Rest, GPIO.HIGH)
+            GPIO.output(c.ledPin_Rest, GPIO.HIGH)
         else:
-            GPIO.output(ledPin_Rest, GPIO.LOW)
+            GPIO.output(c.ledPin_Rest, GPIO.LOW)
     elif device == 'LED_heating':
         pass
     elif device == 'LED_end':
         if on:
-            GPIO.output(ledPin_End, GPIO.HIGH)
+            GPIO.output(c.ledPin_End, GPIO.HIGH)
         else:
-            GPIO.output(ledPin_End, GPIO.LOW)
+            GPIO.output(c.ledPin_End, GPIO.LOW)
 
     return
 
@@ -67,19 +62,13 @@ def _RemoteControlSocket(socket='A', on=True):
         status of socket B
 
     """
-    # Set status to False
-    A_status = False
-    B_status = False
-
     # Switch on/off sockets
     if socket == 'A':
         if on:
             cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17745'
-            A_status = True
             _CtrlLed(device='LED_socket_A', on=True)
             else:
             cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17748'
-            A_status = False
             _CtrlLed(device='LED_socket_A', on=False)
 
     #elif socket == 'B':
@@ -102,7 +91,7 @@ def _RemoteControlSocket(socket='A', on=True):
     # Print to LOG
     print('Socket: ', socket, ' Power: ', on)
 
-    return A_status, B_status
+    return
 
 def _LCD(lcd, str1='', str2=''):
     """

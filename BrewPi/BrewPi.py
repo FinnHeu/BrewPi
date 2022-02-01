@@ -2,19 +2,17 @@
 
 from .initialize_devices import Initialize
 from .user_inputs import UserInputMaischenRasten
-from .brewing_process import _Einmaischen
+from .brewing_process import Brew
 
 def BrewPi():
     """
 
     """
 
-    lcd, device_file, ledPin_Socket_A, ledPin_Rest, ledPin_On, ledPin_End = Initialize()
+    lcd, device_file = Initialize()
 
     rast_min, rast_temp, ein_temp, ab_temp = UserInputMaischenRasten(lcd)
 
-    temp_record, time_record = _Einmaischen(lcd, device_file, ein_temp)
+    temp_record, time_record = Brew(lcd, device_file, ein_temp, ab_temp, rast_min, rast_temp)
 
-    return
-
-
+    return temp_record, time_record

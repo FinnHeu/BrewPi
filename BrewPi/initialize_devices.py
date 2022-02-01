@@ -7,7 +7,8 @@ import numpy as np
 import RPi.GPIO as GPIO
 from .Adafruit_LCD1602 import Adafruit_CharLCD
 from .PCF8574 import PCF8574_GPIO
-from.brewing_process import _MeanTemp
+from .brewing_process import _MeanTemp
+import constants as c
 
 
 
@@ -23,27 +24,23 @@ def _InitializeGPIOs(lcd):
     ########################################## GPIOS ################################################
     ### Set GPIO pins as global variables
     _LCD(lcd, str1='Assigning', str2='GPIOs...')
-    ledPin_Socket_A = 40
-    ledPin_On = 37
-    ledPin_Rest = 38
-    ledPin_End = 22
 
     ### Set pin numbering and standard levels for LEDs
     GPIO.setmode(GPIO.BOARD) # use physical numbering on GPIOs
     # LED Heizen
-    GPIO.setup(ledPin_Socket_A, GPIO.OUT) # set the led pin to Output mode
-    GPIO.output(ledPin_Socket_A, GPIO.LOW) # make standard level of led pin low
+    GPIO.setup(c.ledPin_Socket_A, GPIO.OUT) # set the led pin to Output mode
+    GPIO.output(c.ledPin_Socket_A, GPIO.LOW) # make standard level of led pin low
     # LED On
-    GPIO.setup(ledPin_On, GPIO.OUT) # set the led pin to Output mode
-    GPIO.output(ledPin_On, GPIO.HIGH) # make standard level of led pin low
+    GPIO.setup(c.ledPin_On, GPIO.OUT) # set the led pin to Output mode
+    GPIO.output(c.ledPin_On, GPIO.HIGH) # make standard level of led pin low
     # LED Rast
-    GPIO.setup(ledPin_Rest, GPIO.OUT) # set the led pin to Output mode
-    GPIO.output(ledPin_Rest, GPIO.LOW) # make standard level of led pin low
+    GPIO.setup(c.ledPin_Rest, GPIO.OUT) # set the led pin to Output mode
+    GPIO.output(c.ledPin_Rest, GPIO.LOW) # make standard level of led pin low
     # LED End
-    GPIO.setup(ledPin_End, GPIO.OUT) # set the led pin to Output mode
-    GPIO.output(ledPin_End, GPIO.LOW) # make standard level of led pin low
+    GPIO.setup(c.ledPin_End, GPIO.OUT) # set the led pin to Output mode
+    GPIO.output(c.ledPin_End, GPIO.LOW) # make standard level of led pin low
 
-    return ledPin_Socket_A, ledPin_Rest, ledPin_On, ledPin_End
+    return
 
 def _InitializeThermistors(lcd):
     """
@@ -107,9 +104,9 @@ def _InitTests(lcd, device_file, ledPin_Socket_A):
     time.sleep(3)
 
     _LCD(lcd, str1='Check 433MHz', str2='Watch Cooker!')
-    A_status, B_status = _RemoteControlSocket(socket='A', on=True, ledPin_Socket_A)
+    A_status, B_status = _RemoteControlSocket(socket='A', on=True)
     time.sleep(3)
-    A_status, B_status = _RemoteControlSocket(socket='A', on=False, ledPin_Socket_A)
+    A_status, B_status = _RemoteControlSocket(socket='A', on=False)
     _LCD(lcd, str1='If failed', str2='Press CTRL + C')
     time.sleep(3)
 
@@ -149,10 +146,10 @@ def Initialize():
 
     lcd = _InitializeLCD()
 
-    ledPin_Socket_A, ledPin_Rest, ledPin_On, ledPin_End = _InitializeGPIOs(lcd)
+    _InitializeGPIOs(lcd)
 
     device_file = _InitializeThermistors(lcd)
 
-    _InitTests(lcd, device_file, ledPin_Socket_A)
+    _InitTests(lcd, device_file, c.ledPin_Socket_A)
 
-    return lcd, device_file, ledPin_Socket_A, ledPin_Rest, ledPin_On, ledPin_End
+    return lcd, device_file
