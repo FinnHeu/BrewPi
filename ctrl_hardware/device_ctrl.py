@@ -1,10 +1,10 @@
 # Submodule for controling devices like LEDs, Sockets, etc...
 import subprocess
 import RPi.GPIO as GPIO
-import BrewPi.constants as c
+import ctrl_hardware.constants as c
 
 
-def _CtrlLed(device=None, on=True):
+def CtrlLed(device=None, on=True):
     """
     Controll the LEDs on the device board
 
@@ -38,7 +38,7 @@ def _CtrlLed(device=None, on=True):
 
     return
 
-def _RemoteControlSocket(socket='A', on=True):
+def RemoteControlSocket(socket='A', on=True):
     """
     Switches remote socket on and off by transmitting a 344MHz Signal
 
@@ -62,10 +62,10 @@ def _RemoteControlSocket(socket='A', on=True):
     if socket == 'A':
         if on:
             cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17745'
-            _CtrlLed(device='LED_socket_A', on=True)
+            CtrlLed(device='LED_socket_A', on=True)
         else:
             cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17748'
-            _CtrlLed(device='LED_socket_A', on=False)
+            CtrlLed(device='LED_socket_A', on=False)
 
     #elif socket == 'B':
     print('not configured yet')
@@ -82,14 +82,14 @@ def _RemoteControlSocket(socket='A', on=True):
 
     # Set LED status
     socket_name = 'socket_' + socket
-    _CtrlLed(device=socket_name, on=on)
+    CtrlLed(device=socket_name, on=on)
 
     # Print to LOG
     print('Socket: ', socket, ' Power: ', on)
 
     return
 
-def _LCD(lcd, str1='', str2=''):
+def LCD(lcd, str1='', str2=''):
     """
     Print statement on LCD
 

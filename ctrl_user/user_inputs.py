@@ -1,5 +1,5 @@
 # Submodule for recieving user inputs
-from .device_ctrl import _LCD
+from ctrl_hardware.device_ctrl import LCD
 import time
 
 def _UserInputRasten(lcd):
@@ -17,7 +17,7 @@ def _UserInputRasten(lcd):
 
     """
 
-    _LCD(lcd, str1='See Terminal for', str2='Instructions... ')
+    LCD(lcd, str1='See Terminal for', str2='Instructions... ')
 
     # Input: Rasten Laenge
     user_input_1 = input('Laenge der Rasten in Minuten eingeben z.B. 10 30 20: ').split()
@@ -53,7 +53,7 @@ def _UserInputEinAbmaischTemp(lcd):
         Abmaischtemperatur
     """
 
-    _LCD(lcd, str1='See Terminal for', str2='Instructions... ')
+    LCD(lcd, str1='See Terminal for', str2='Instructions... ')
 
     # Input: Ein-/ Abmaischtemperatur
     user_input = input('Ein- und Abmaischtemperatur in C eingeben, z.B. 50 80: ').split()
@@ -75,14 +75,14 @@ def _PrintInputs(lcd, ein_temp: float, ab_temp: float, rast_min: list, rast_temp
 
     """
     # Display Rasten
-    _LCD(lcd, str1='Einmaischen:', str2=str(ein_temp) + 'C')
+    LCD(lcd, str1='Einmaischen:', str2=str(ein_temp) + 'C')
     time.sleep(3)
 
     for num, temp in enumerate(rast_temp):
-        _LCD(lcd, str1='Rast: ' + str(num + 1), str2='T: ' + str(int(temp)) + ', Min: ' + str(int(rast_min[num])))
+        LCD(lcd, str1='Rast: ' + str(num + 1), str2='T: ' + str(int(temp)) + ', Min: ' + str(int(rast_min[num])))
         time.sleep(3)
 
-    _LCD(lcd, str1='Abmaischen: ', str2=str(ab_temp) + 'C')
+    LCD(lcd, str1='Abmaischen: ', str2=str(ab_temp) + 'C')
     time.sleep(3)
 
 def UserInputMaischenRasten(lcd):

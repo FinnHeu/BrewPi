@@ -1,8 +1,8 @@
-from BrewPi.device_ctrl import _LCD, _RemoteControlSocket, _CtrlLed
+from ctrl_hardware.device_ctrl import LCD, RemoteControlSocket, CtrlLed
 import datetime
 import time
 
-def _ReadThermistor(device_file, number=0):
+def ReadThermistor(device_file, number=0):
     """
     Read the temperature from a thermistor
 
@@ -37,13 +37,13 @@ def _ReadThermistor(device_file, number=0):
 
     return temp
 
-def _MeanTemp(device_file, consistency_check=False):
+def MeanTemp(device_file, consistency_check=False):
     """
     
     """
     temp_list = list()
     for i in range(3):
-        temp = _ReadThermistor(device_file, number=i)
+        temp = ReadThermistor(device_file, number=i)
         temp_list.append(temp)
 
     # Apply mean
@@ -57,41 +57,41 @@ def _MeanTemp(device_file, consistency_check=False):
     else:
         return mean_temp
 
-def _Einmaischen(lcd, device_file, ein_temp):
+def Einmaischen(lcd, device_file, ein_temp):
     """
 
     """
 
-    _LCD(lcd, str1='Erhitze zum', str2='Einmaischen')
+    LCD(lcd, str1='Erhitze zum', str2='Einmaischen')
 
     # Initially read temperature and time and create the first 10 values in one minute
     temp_record = list()
     time_record = list()
     for i in range(11):
-        temp_record.append(_MeanTemp(device_file, consistency_check=False))
+        temp_record.append(MeanTemp(device_file, consistency_check=False))
         time_record.append(datetime.datetime.now())
 
     time.sleep(2)
     while all(t < ein_temp for t in temp_record[-10:]):
         # Turn on socket cooker to heat
-        A_status, B_status = _RemoteControlSocket(socket='A', on=True)
+        A_status, B_status = RemoteControlSocket(socket='A', on=True)
 
         # Get temperature and time
-        temp_record.append(_MeanTemp(device_file, consistency_check=False))
+        temp_record.append(MeanTemp(device_file, consistency_check=False))
         time_record.append(datetime.datetime.now())
 
-        _LCD(lcd, str1='Soll: ' + str(ein_temp), str2='Ist: ' + str(round(temp_record[-1],2 )))
+        LCD(lcd, str1='Soll: ' + str(ein_temp), str2='Ist: ' + str(round(temp_record[-1],2 )))
         time.sleep(5)
-        _LCD(lcd, str1='Erhitze zum', str2='Einmaischen')
+        LCD(lcd, str1='Erhitze zum', str2='Einmaischen')
 
 
     # If temperature reached turn of cooker and wait for five minutes
     time.sleep(2)
-    _LCD(lcd, str1='Temperatur', str2='Erreicht!')
+    LCD(lcd, str1='Temperatur', str2='Erreicht!')
     time.sleep(2)
-    A_status, B_status = _RemoteControlSocket(socket='A', on=False)
+    A_status, B_status = RemoteControlSocket(socket='A', on=False)
 
-    _LCD(lcd, str1='Jetzt', str2='Einmaischen!')
+    LCD(lcd, str1='Jetzt', str2='Einmaischen!')
 
     # Wait 5mins
     now = datetime.datetime.now()
@@ -99,51 +99,51 @@ def _Einmaischen(lcd, device_file, ein_temp):
 
     while now < end:
         time.sleep(.9)
-        _LCD(lcd, str1='Einmaischen...', str2=str(end - now)[:7] + 'h')
+        LCD(lcd, str1='Einmaischen...', str2=str(end - now)[:7] + 'h')
         now = datetime.datetime.now()
 
-        temp_record.append(_MeanTemp(device_file, consistency_check=False))
+        temp_record.append(MeanTemp(device_file, consistency_check=False))
         time_record.append(datetime.datetime.now())
 
-    _LCD(lcd, str1='Einmaischen', str2='Beendet...')
+    LCD(lcd, str1='Einmaischen', str2='Beendet...')
     time.sleep(5)
 
     return temp_record, time_record
 
-def _Rasten(lcd, temp_record, time_record, rast_min, rast_temp, device_file):
+def Rasten(lcd, temp_record, time_record, rast_min, rast_temp, device_file):
     """
 
     """
-    _LCD(lcd, str1='Starte', str2='Rasten...')
+    LCD(lcd, str1='Starte', str2='Rasten...')
     time.sleep(2)
 
     # Start Rasten, iteriere durch alle Rasten
     for i in range(len(rast_min)):
 
-        _LCD(lcd, str1='Heize zur naechsten', str2='Rast' + str(i+1) + '/' + str(len(rast_min)))
+        LCD(lcd, str1='Heize zur naechsten', str2='Rast' + str(i+1) + '/' + str(len(rast_min)))
 
         # Get current temperature
         for j in range(10):
-            temp_record.append(_MeanTemp(device_file, consistency_check=False))
+            temp_record.append(MeanTemp(device_file, consistency_check=False))
             time_record.append(datetime.datetime.now())
             time.sleep(.1)
 
         # Heize zur nächsten Rast, Puffer -0.25°C
         while any(t < (rast_temp[i] - 0.25) for t in temp_record[-10:]):
             # Turn cooker on
-            A_status, B_status = _RemoteControlSocket(socket='A', on=True)
+            A_status, B_status = RemoteControlSocket(socket='A', on=True)
 
             # Read temperature and time
-            temp_record.append(_MeanTemp(device_file, consistency_check=False))
+            temp_record.append(MeanTemp(device_file, consistency_check=False))
             time_record.append(datetime.datetime.now())
 
             time.sleep(2)
 
-            _LCD(lcd, str1='Soll: ' + str(rast_temp[i]), str2='Ist: ' + str(round(temp_record[-1], 2)))
+            LCD(lcd, str1='Soll: ' + str(rast_temp[i]), str2='Ist: ' + str(round(temp_record[-1], 2)))
 
         # Starte die Rast
         time.sleep(2)
-        _CtrlLed(device='LED_rast', on=True)
+        CtrlLed(device='LED_rast', on=True)
 
         # Berechne Ende der Rast
         now = datetime.datetime.now()
@@ -153,51 +153,51 @@ def _Rasten(lcd, temp_record, time_record, rast_min, rast_temp, device_file):
         while time_record[-1] < end:
             # Get current time and temperature
             time_record.append(datetime.datetime.now())
-            temp_record.append(_MeanTemp(device_file, consistency_check=False))
+            temp_record.append(MeanTemp(device_file, consistency_check=False))
 
-            _LCD(lcd, str1='Rast ' + str(i + 1) + '/ ' + str(len(rast_temp)), str2=str(end - time_record[-1])[:7] + 'h')
+            LCD(lcd, str1='Rast ' + str(i + 1) + '/ ' + str(len(rast_temp)), str2=str(end - time_record[-1])[:7] + 'h')
             time.sleep(3)
-            _LCD(lcd, str1='Ist: ' + str(round(temp_record[-1], 2)) + 'C', str2='Soll: ' + str(rast_temp[i]) + 'C')
+            LCD(lcd, str1='Ist: ' + str(round(temp_record[-1], 2)) + 'C', str2='Soll: ' + str(rast_temp[i]) + 'C')
 
             # check if temperature has decreased below rast temperature
             if all(t < (rast_temp[i] - .25) for t in temp_record[-10:]):
                 # turn on cooker for at least 30 seconds before next temperature measurement
-                A_status, B_status = _RemoteControlSocket(socket='A', on=True)
+                A_status, B_status = RemoteControlSocket(socket='A', on=True)
 
                 # append 10 temperature values within 30s
                 for j in range(10):
                     time_record.append(datetime.datetime.now())
-                    temp_record.append(_MeanTemp(device_file, consistency_check=False))
+                    temp_record.append(MeanTemp(device_file, consistency_check=False))
                     time.sleep(3)
 
             else:
                 # if temperature is okay turn cooker off
-                A_status, B_status = _RemoteControlSocket(socket='A', on=False)
+                A_status, B_status = RemoteControlSocket(socket='A', on=False)
 
                 time.sleep(3)
 
         # continue if Rast is over
-        _LCD(lcd, str1='Rast ' + str(i + 1) + '/ ' + str(len(rast_temp)), str2='abgeschlossen!')
+        LCD(lcd, str1='Rast ' + str(i + 1) + '/ ' + str(len(rast_temp)), str2='abgeschlossen!')
 
         time.sleep(3)
 
     # Beende Rasten
-    _LCD(lcd, str1='Beende', str2='Rasten...')
-    A_status, B_status = _RemoteControlSocket(socket='A', on=False)
+    LCD(lcd, str1='Beende', str2='Rasten...')
+    A_status, B_status = RemoteControlSocket(socket='A', on=False)
 
     time.sleep(3)
 
     return temp_record, time_record
 
-def _Abmaischen(lcd, temp_record, time_record, device_file, ab_temp):
+def Abmaischen(lcd, temp_record, time_record, device_file, ab_temp):
     """
 
     """
 
-    _LCD(lcd, str1='Erhitze zum', str2='Abmaischen')
+    LCD(lcd, str1='Erhitze zum', str2='Abmaischen')
 
     for i in range(11):
-        temp_record.append(_MeanTemp(device_file, consistency_check=False))
+        temp_record.append(MeanTemp(device_file, consistency_check=False))
         time_record.append(datetime.datetime.now())
         time.sleep(.1)
 
@@ -205,24 +205,24 @@ def _Abmaischen(lcd, temp_record, time_record, device_file, ab_temp):
 
     while all(t < ab_temp for t in temp_record[-10:]):
         # Turn on socket cooker to heat
-        A_status, B_status = _RemoteControlSocket(socket='A', on=True)
+        A_status, B_status = RemoteControlSocket(socket='A', on=True)
 
         # Get temperature and time
-        temp_record.append(_MeanTemp(device_file, consistency_check=False))
+        temp_record.append(MeanTemp(device_file, consistency_check=False))
         time_record.append(datetime.datetime.now())
 
-        _LCD(lcd, str1='Soll: ' + str(ab_temp), str2='Ist: ' + str(round(temp_record[-1],2 )))
+        LCD(lcd, str1='Soll: ' + str(ab_temp), str2='Ist: ' + str(round(temp_record[-1],2 )))
         time.sleep(5)
-        _LCD(lcd, str1='Erhitze zum', str2='Abnmaischen')
+        LCD(lcd, str1='Erhitze zum', str2='Abnmaischen')
 
 
     # If temperature reached turn of cooker and wait for five minutes
     time.sleep(2)
-    _LCD(lcd, str1='Temperatur', str2='Erreicht!')
+    LCD(lcd, str1='Temperatur', str2='Erreicht!')
     time.sleep(2)
-    A_status, B_status = _RemoteControlSocket(socket='A', on=False)
+    A_status, B_status = RemoteControlSocket(socket='A', on=False)
 
-    _LCD(lcd, str1='Jetzt', str2='Abmaischen!')
+    LCD(lcd, str1='Jetzt', str2='Abmaischen!')
 
 
     return temp_record, time_record
@@ -232,11 +232,11 @@ def Brew(lcd, device_file: list, ein_temp: float, ab_temp: float, rast_min: list
     Main function for brewing process
     """
 
-    temp_record, time_record = _Einmaischen(lcd, device_file, ein_temp)
+    temp_record, time_record = Einmaischen(lcd, device_file, ein_temp)
 
-    temp_record, time_record = _Rasten(lcd, temp_record, time_record, rast_min, rast_temp, device_file):
+    temp_record, time_record = Rasten(lcd, temp_record, time_record, rast_min, rast_temp, device_file):
 
-    temp_record, time_record = _Abmaischen(lcd, temp_record, time_record, device_file, ab_temp)
+    temp_record, time_record = Abmaischen(lcd, temp_record, time_record, device_file, ab_temp)
 
     return temp_record, time_record
 
