@@ -211,7 +211,7 @@ def Abmaischen(lcd, temp_record, time_record, device_file, ab_temp):
         temp_record.append(MeanTemp(device_file, consistency_check=False))
         time_record.append(datetime.datetime.now())
 
-        LCD(lcd, str1='Soll: ' + str(ab_temp), str2='Ist: ' + str(round(temp_record[-1],2 )))
+        LCD(lcd, str1='Soll: ' + str(ab_temp), str2='Ist: ' + str(round(temp_record[-1], 2)))
         time.sleep(5)
         LCD(lcd, str1='Erhitze zum', str2='Abnmaischen')
 
