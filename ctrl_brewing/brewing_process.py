@@ -234,7 +234,7 @@ def Brew(lcd, device_file: list, ein_temp: float, ab_temp: float, rast_min: list
 
     temp_record, time_record = Einmaischen(lcd, device_file, ein_temp)
 
-    temp_record, time_record = Rasten(lcd, temp_record, time_record, rast_min, rast_temp, device_file):
+    temp_record, time_record = Rasten(lcd, temp_record, time_record, rast_min, rast_temp, device_file)
 
     temp_record, time_record = Abmaischen(lcd, temp_record, time_record, device_file, ab_temp)
 
