@@ -125,7 +125,7 @@ def InitTests(lcd, device_file, ledPin_Socket_A):
         temp_diff = MeanTemp(device_file, consistency_check=True)
         # check deviation from mean temperature
         if any(t > .5 for t in temp_diff):
-            LCD(lcd, str1='Temp:' + str(temp_diff[0][:4]) + 'C ',
+            LCD(lcd, str1='Temp:' + str(round(temp_diff[0])) + 'C ',
                 str2=str(round(temp_diff[1],3)) + 'C ' + str(round(temp_diff[2])) + 'C ')
             time.sleep(3)
             LCD(lcd, str1='Thermistors are ',
