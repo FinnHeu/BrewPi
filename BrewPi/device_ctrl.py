@@ -1,7 +1,8 @@
 # Submodule for controling devices like LEDs, Sockets, etc...
 import subprocess
 import RPi.GPIO as GPIO
-import constants as c
+import BrewPi.constants as c
+
 
 def _CtrlLed(device=None, on=True):
     """
@@ -17,16 +18,11 @@ def _CtrlLed(device=None, on=True):
     if device == None:
         raise ValueError('Select a device!')
 
-    if device =='LED_socket_A':
+    if device == 'LED_socket_A':
         if on:
             GPIO.output(c.ledPin_Socket_A, GPIO.HIGH)
         else:
             GPIO.output(c.ledPin_Socket_A, GPIO.LOW)
-    elif device =='LED_socket_B':
-        if on:
-            GPIO.output(c.ledPin_Socket_B, GPIO.HIGH)
-        else:
-            GPIO.output(c.ledPin_Socket_B, GPIO.LOW)
     elif device == 'LED_rast':
         if on:
             GPIO.output(c.ledPin_Rest, GPIO.HIGH)
@@ -67,7 +63,7 @@ def _RemoteControlSocket(socket='A', on=True):
         if on:
             cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17745'
             _CtrlLed(device='LED_socket_A', on=True)
-            else:
+        else:
             cmd = 'python3 /home/pi/Documents/BrewPi/BrewPi/send_433.py -p 310 -t 0 17748'
             _CtrlLed(device='LED_socket_A', on=False)
 

@@ -1,4 +1,4 @@
-from .device_ctrl import _LCD, _RemoteControlSocket, _CtrlLed
+from BrewPi.device_ctrl import _LCD, _RemoteControlSocket, _CtrlLed
 import datetime
 import time
 

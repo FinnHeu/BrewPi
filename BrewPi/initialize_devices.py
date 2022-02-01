@@ -5,11 +5,10 @@ import os
 import glob
 import numpy as np
 import RPi.GPIO as GPIO
-from .Adafruit_LCD1602 import Adafruit_CharLCD
-from .PCF8574 import PCF8574_GPIO
-from .brewing_process import _MeanTemp
-import constants as c
-
+from BrewPi.Adafruit_LCD1602 import Adafruit_CharLCD
+from BrewPi.PCF8574 import PCF8574_GPIO
+from BrewPi.brewing_process import _MeanTemp
+import BrewPi.constants as c
 
 
 def _InitializeGPIOs(lcd):
