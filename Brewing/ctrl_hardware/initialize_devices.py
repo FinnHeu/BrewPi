@@ -3,7 +3,7 @@ import time
 import os
 import glob
 import RPi.GPIO as GPIO
-import constants as c
+from .constants import *
 from .Adafruit_LCD1602 import Adafruit_CharLCD
 from .PCF8574 import PCF8574_GPIO
 from ..ctrl_brewing.brewing_process import MeanTemp
@@ -27,17 +27,17 @@ def InitializeGPIOs(lcd):
     ### Set pin numbering and standard levels for LEDs
     GPIO.setmode(GPIO.BOARD) # use physical numbering on GPIOs
     # LED Heizen
-    GPIO.setup(c.ledPin_Socket_A, GPIO.OUT) # set the led pin to Output mode
-    GPIO.output(c.ledPin_Socket_A, GPIO.LOW) # make standard level of led pin low
+    GPIO.setup(ledPin_Socket_A, GPIO.OUT) # set the led pin to Output mode
+    GPIO.output(ledPin_Socket_A, GPIO.LOW) # make standard level of led pin low
     # LED On
-    GPIO.setup(c.ledPin_On, GPIO.OUT) # set the led pin to Output mode
-    GPIO.output(c.ledPin_On, GPIO.HIGH) # make standard level of led pin low
+    GPIO.setup(ledPin_On, GPIO.OUT) # set the led pin to Output mode
+    GPIO.output(ledPin_On, GPIO.HIGH) # make standard level of led pin low
     # LED Rast
-    GPIO.setup(c.ledPin_Rest, GPIO.OUT) # set the led pin to Output mode
-    GPIO.output(c.ledPin_Rest, GPIO.LOW) # make standard level of led pin low
+    GPIO.setup(ledPin_Rest, GPIO.OUT) # set the led pin to Output mode
+    GPIO.output(ledPin_Rest, GPIO.LOW) # make standard level of led pin low
     # LED End
-    GPIO.setup(c.ledPin_End, GPIO.OUT) # set the led pin to Output mode
-    GPIO.output(c.ledPin_End, GPIO.LOW) # make standard level of led pin low
+    GPIO.setup(ledPin_End, GPIO.OUT) # set the led pin to Output mode
+    GPIO.output(ledPin_End, GPIO.LOW) # make standard level of led pin low
 
     return
 
@@ -149,6 +149,6 @@ def Initialize():
 
     device_file = InitializeThermistors(lcd)
 
-    InitTests(lcd, device_file, c.ledPin_Socket_A)
+    InitTests(lcd, device_file, ledPin_Socket_A)
 
     return lcd, device_file
