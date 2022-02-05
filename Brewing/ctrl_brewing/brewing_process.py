@@ -85,7 +85,7 @@ def Einmaischen(lcd, device_file, ein_temp):
         LCD(lcd, str1='Erhitze zum', str2='Einmaischen')
 
 
-    # If temperature reached turn of cooker and wait for five minutes
+    # If temperature reached turn of cooker and wait for user confirmation
     time.sleep(2)
     LCD(lcd, str1='Temperatur', str2='Erreicht!')
     time.sleep(2)
@@ -95,7 +95,7 @@ def Einmaischen(lcd, device_file, ein_temp):
 
     # Wait 5mins
     now = datetime.datetime.now()
-    end = now + datetime.timedelta(minutes=5)
+    end = now + datetime.timedelta(seconds=20)
 
     while now < end:
         time.sleep(.9)
