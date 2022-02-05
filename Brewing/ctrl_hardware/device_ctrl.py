@@ -61,10 +61,10 @@ def RemoteControlSocket(socket='A', on=True):
     # Switch on/off sockets
     if socket == 'A':
         if on:
-            cmd = 'python3 /home/pi/Documents/BrewPi/ctrl_hardware/send_433.py -p 310 -t 0 17745'
+            cmd = 'python3 /home/pi/Documents/BrewPi/Brewing/ctrl_hardware/send_433.py -p 310 -t 0 17745'
             CtrlLed(device='LED_socket_A', on=True)
         else:
-            cmd = 'python3 /home/pi/Documents/BrewPi/ctrl_hardware/send_433.py -p 310 -t 0 17748'
+            cmd = 'python3 /home/pi/Documents/BrewPi/Brewing/ctrl_hardware/send_433.py -p 310 -t 0 17748'
             CtrlLed(device='LED_socket_A', on=False)
 
     #elif socket == 'B':
