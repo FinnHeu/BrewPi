@@ -1,8 +1,8 @@
 # Main function for BrewPi
 
-from ctrl_hardware.initialize_devices import Initialize
-from ctrl_user.user_inputs import UserInputMaischenRasten
-from ctrl_brewing.brewing_process import Brew
+from Brewing.ctrl_hardware.initialize_devices import Initialize
+from Brewing.ctrl_user.user_inputs import UserInputMaischenRasten
+from Brewing.ctrl_brewing.brewing_process import Brew
 
 
 def run():

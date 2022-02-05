@@ -1,7 +1,7 @@
 # Submodule for controling devices like LEDs, Sockets, etc...
 import subprocess
 import RPi.GPIO as GPIO
-import Brewing.ctrl_hardware.constants as c
+import constants as c
 
 
 def CtrlLed(device=None, on=True):

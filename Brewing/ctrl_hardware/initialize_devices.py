@@ -4,10 +4,10 @@ import os
 import glob
 import RPi.GPIO as GPIO
 import constants as c
-from Adafruit_LCD1602 import Adafruit_CharLCD
-from PCF8574 import PCF8574_GPIO
-from Brewing.ctrl_brewing.brewing_process import MeanTemp
-from device_ctrl import LCD, RemoteControlSocket
+from .Adafruit_LCD1602 import Adafruit_CharLCD
+from .PCF8574 import PCF8574_GPIO
+from ..ctrl_brewing.brewing_process import MeanTemp
+from .device_ctrl import LCD, RemoteControlSocket
 
 
 
