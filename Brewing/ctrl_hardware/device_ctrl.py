@@ -1,7 +1,7 @@
-# Submodule for controling devices like LEDs, Sockets, etc...
+# Submodule for controling devices like LEDs, Sockets, et..
 import subprocess
 import RPi.GPIO as GPIO
-import constants as c
+from .constants import *
 
 
 def CtrlLed(device=None, on=True):
@@ -20,21 +20,21 @@ def CtrlLed(device=None, on=True):
 
     if device == 'LED_socket_A':
         if on:
-            GPIO.output(c.ledPin_Socket_A, GPIO.HIGH)
+            GPIO.output(ledPin_Socket_A, GPIO.HIGH)
         else:
-            GPIO.output(c.ledPin_Socket_A, GPIO.LOW)
+            GPIO.output(ledPin_Socket_A, GPIO.LOW)
     elif device == 'LED_rast':
         if on:
-            GPIO.output(c.ledPin_Rest, GPIO.HIGH)
+            GPIO.output(ledPin_Rest, GPIO.HIGH)
         else:
-            GPIO.output(c.ledPin_Rest, GPIO.LOW)
+            GPIO.output(ledPin_Rest, GPIO.LOW)
     elif device == 'LED_heating':
         pass
     elif device == 'LED_end':
         if on:
-            GPIO.output(c.ledPin_End, GPIO.HIGH)
+            GPIO.output(ledPin_End, GPIO.HIGH)
         else:
-            GPIO.output(c.ledPin_End, GPIO.LOW)
+            GPIO.output(ledPin_End, GPIO.LOW)
 
     return
 
