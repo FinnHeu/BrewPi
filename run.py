@@ -4,17 +4,22 @@ from Brewing.ctrl_hardware.initialize_devices import Initialize
 from Brewing.ctrl_user.user_inputs import UserInputMaischenRasten
 from Brewing.ctrl_brewing.brewing_process import Brew
 
+import RPi.GPIO as GPIO
+
 
 def run():
     """
 
     """
+    try:
+        lcd, device_file = Initialize()
 
-    lcd, device_file = Initialize()
+        rast_min, rast_temp, ein_temp, ab_temp = UserInputMaischenRasten(lcd)
 
-    rast_min, rast_temp, ein_temp, ab_temp = UserInputMaischenRasten(lcd)
+        temp_record, time_record = Brew(lcd, device_file, ein_temp, ab_temp, rast_min, rast_temp)
 
-    temp_record, time_record = Brew(lcd, device_file, ein_temp, ab_temp, rast_min, rast_temp)
+    except KeyboardInterrupt:
+        GPIO.cleanup()
 
     return temp_record, time_record
 

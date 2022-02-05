@@ -120,13 +120,13 @@ def Rasten(lcd, temp_record, time_record, rast_min, rast_temp, device_file):
     # Start Rasten, iteriere durch alle Rasten
     for i in range(len(rast_min)):
 
-        LCD(lcd, str1='Heize zur naechsten', str2='Rast' + str(i+1) + '/' + str(len(rast_min)))
+        LCD(lcd, str1='Heize zu', str2='Rast: ' + str(i+1) + '/' + str(len(rast_min)))
 
         # Get current temperature
-        for j in range(10):
-            temp_record.append(MeanTemp(device_file, consistency_check=False))
-            time_record.append(datetime.datetime.now())
-            time.sleep(.1)
+        #for j in range(10):
+        #    temp_record.append(MeanTemp(device_file, consistency_check=False))
+        #    time_record.append(datetime.datetime.now())
+        #    time.sleep(.1)
 
         # Heize zur nächsten Rast, Puffer -0.25°C
         while any(t < (rast_temp[i] - 0.25) for t in temp_record[-10:]):
@@ -168,7 +168,12 @@ def Rasten(lcd, temp_record, time_record, rast_min, rast_temp, device_file):
                 for j in range(10):
                     time_record.append(datetime.datetime.now())
                     temp_record.append(MeanTemp(device_file, consistency_check=False))
+                    LCD(lcd, str1='Rast ' + str(i + 1) + '/ ' + str(len(rast_temp)),
+                        str2=str(end - time_record[-1])[:7] + 'h')
                     time.sleep(3)
+                    LCD(lcd, str1='Ist: ' + str(round(temp_record[-1], 2)) + 'C',
+                        str2='Soll: ' + str(rast_temp[i]) + 'C')
+
 
             else:
                 # if temperature is okay turn cooker off
@@ -178,6 +183,7 @@ def Rasten(lcd, temp_record, time_record, rast_min, rast_temp, device_file):
 
         # continue if Rast is over
         LCD(lcd, str1='Rast ' + str(i + 1) + '/ ' + str(len(rast_temp)), str2='abgeschlossen!')
+        CtrlLed(device='LED_rast', on=False)
 
         time.sleep(3)
 
@@ -196,12 +202,12 @@ def Abmaischen(lcd, temp_record, time_record, device_file, ab_temp):
 
     LCD(lcd, str1='Erhitze zum', str2='Abmaischen')
 
-    for i in range(11):
-        temp_record.append(MeanTemp(device_file, consistency_check=False))
-        time_record.append(datetime.datetime.now())
-        time.sleep(.1)
+    #for i in range(11):
+    #    temp_record.append(MeanTemp(device_file, consistency_check=False))
+    #    time_record.append(datetime.datetime.now())
+     #   time.sleep(.1)
 
-    time.sleep(2)
+    #time.sleep(2)
 
     while all(t < ab_temp for t in temp_record[-10:]):
         # Turn on socket cooker to heat
@@ -213,7 +219,7 @@ def Abmaischen(lcd, temp_record, time_record, device_file, ab_temp):
 
         LCD(lcd, str1='Soll: ' + str(ab_temp), str2='Ist: ' + str(round(temp_record[-1], 2)))
         time.sleep(5)
-        LCD(lcd, str1='Erhitze zum', str2='Abnmaischen')
+        LCD(lcd, str1='Erhitze zum', str2='Abmaischen')
 
 
     # If temperature reached turn of cooker and wait for five minutes
@@ -224,6 +230,7 @@ def Abmaischen(lcd, temp_record, time_record, device_file, ab_temp):
 
     LCD(lcd, str1='Jetzt', str2='Abmaischen!')
 
+    CtrlLed(device='LED_End', on=True)
 
     return temp_record, time_record
 
