@@ -6,9 +6,5 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/visuals')
-def visuals():
-    return render_template('recipes.html')
-
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0 .0.0')
+    app.run(debug=True, host='0.0.0.0')
