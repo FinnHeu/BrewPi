@@ -1,0 +1,44 @@
+body, html {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		/*background-image: url("images/timothy-dykes-Lq1rOaigDoY-unsplash.jpg")*/
+		background-color: #221b41;
+	}
+
+#heading {
+	color: white;
+	font-family: "Monaco", sans-serif;
+	font-size: 80px;
+	font-weight: revert;
+	margin-right: 50px;
+	margin-top: 20px;
+	float: right;
+}
+
+.button {
+  border: none;
+  color: #221b41;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+	opacity: 0.6;
+}
+
+.button:hover {
+	opacity: 1
+}
+
+.button5 {
+	margin-top: 60px;
+	margin-left: 320px;
+	padding: 250px 250px;
+	border-radius: 10px;
+	background-color: #f8f6f6;
+
+}
+
+

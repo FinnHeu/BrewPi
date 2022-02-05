@@ -3,11 +3,11 @@ import time
 import os
 import glob
 import RPi.GPIO as GPIO
-import ctrl_hardware.constants as c
-from ctrl_hardware.Adafruit_LCD1602 import Adafruit_CharLCD
-from ctrl_hardware.PCF8574 import PCF8574_GPIO
-from ctrl_brewing.brewing_process import MeanTemp
-from ctrl_hardware.device_ctrl import LCD, RemoteControlSocket
+import Brewing.ctrl_hardware.constants as c
+from Brewing.ctrl_hardware.Adafruit_LCD1602 import Adafruit_CharLCD
+from Brewing.ctrl_hardware.PCF8574 import PCF8574_GPIO
+from Brewing.ctrl_brewing.brewing_process import MeanTemp
+from Brewing.ctrl_hardware.device_ctrl import LCD, RemoteControlSocket
 
 
 

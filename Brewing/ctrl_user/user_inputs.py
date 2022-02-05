@@ -1,5 +1,5 @@
 # Submodule for recieving user inputs
-from ctrl_hardware.device_ctrl import LCD
+from Brewing.ctrl_hardware.device_ctrl import LCD
 import time
 
 def _UserInputRasten(lcd):

@@ -1,4 +1,4 @@
-from ctrl_hardware.device_ctrl import LCD, RemoteControlSocket, CtrlLed
+from Brewing.ctrl_hardware.device_ctrl import LCD, RemoteControlSocket, CtrlLed
 import datetime
 import time
 
