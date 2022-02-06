@@ -95,7 +95,7 @@ def Einmaischen(lcd, device_file, ein_temp):
 
     # Wait 5mins
     now = datetime.datetime.now()
-    end = now + datetime.timedelta(seconds=20)
+    end = now + datetime.timedelta(minutes=5)
 
     while now < end:
         time.sleep(.9)

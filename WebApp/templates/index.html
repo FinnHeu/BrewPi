@@ -40,20 +40,8 @@
 		</svg>
 	</div>
 
-    <input type="button" class='button button1' name="scriptbutton" value=" Start Brewing " onclick="goPython()">
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
-    <script>
-        function goPython(){
-            alert('started brewing!')
-            $.ajax({
-              url: "../../Brewing/run.py",
-             context: document.body
-            }).done(function() {
-             alert('finished python script');
-            });
-        }
-    </script>
+
 
     </body>
 </html>
